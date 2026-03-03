@@ -163,8 +163,7 @@ export default function CheckoutPage() {
   }
 
   const inputClass = (field: string) =>
-    `mt-1.5 h-10 w-full rounded-lg border bg-card px-3 text-sm text-card-foreground outline-none transition-all focus:border-accent focus:ring-1 focus:ring-accent ${
-      errors[field] ? "border-destructive" : "border-border"
+    `mt-1.5 h-10 w-full rounded-lg border bg-card px-3 text-sm text-card-foreground outline-none transition-all focus:border-accent focus:ring-1 focus:ring-accent ${errors[field] ? "border-destructive" : "border-border"
     }`
 
   return (
@@ -325,19 +324,19 @@ export default function CheckoutPage() {
               Scan the QR code below with any UPI app (Paytm, Google Pay, PhonePe, BHIM) to complete your payment of <span className="font-semibold text-foreground">{"₹"}{grandTotal}</span>
             </p>
             <div className="mt-4 flex justify-center">
-              <div className="overflow-hidden rounded-xl border border-border bg-background shadow-sm">
+              <div className="overflow-hidden rounded-xl border border-border bg-white p-2 shadow-sm">
                 <Image
-                  src="/images/upi-qr.jpeg"
+                  src="/images/qr.jpeg"
                   alt="UPI QR Code - Scan to pay via Paytm, Google Pay, PhonePe, or BHIM"
                   width={320}
-                  height={440}
+                  height={320}
                   className="h-auto w-[280px] sm:w-[320px]"
                   priority
                 />
               </div>
             </div>
-            <p className="mt-3 text-center text-xs text-muted-foreground">
-              UPI ID: 7710734000@ptaxis
+            <p className="mt-3 text-center text-xs font-medium text-foreground">
+              UPI ID: <span className="text-accent underline">7710734000@ptaxis</span>
             </p>
             <div className="mt-5 border-t border-border pt-5">
               <label htmlFor="transactionId" className="block text-sm font-medium text-foreground">
