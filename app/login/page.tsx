@@ -105,7 +105,7 @@ export default function LoginPage() {
           >
             <BookOpen className="h-8 w-8 text-accent" />
             <span className="text-2xl font-bold font-serif text-foreground">
-              BooksCart
+              BooksKart
             </span>
           </Link>
           <h1 className="mt-6 text-2xl font-bold font-serif text-foreground">
@@ -229,7 +229,7 @@ export default function LoginPage() {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-background px-3 text-muted-foreground">
-              New to BooksCart?
+              New to BooksKart?
             </span>
           </div>
         </div>

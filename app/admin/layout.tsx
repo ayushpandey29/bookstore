@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Admin Panel | BooksCart",
-  description: "BooksCart administration panel for order management",
+  title: "Admin Panel | BooksKart",
+  description: "BooksKart administration panel for order management",
 }
 
 export default function AdminLayout({

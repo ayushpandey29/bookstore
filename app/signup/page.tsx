@@ -91,13 +91,13 @@ export default function SignupPage() {
         <div className="text-center">
           <Link href="/" className="inline-flex items-center gap-2 transition-opacity hover:opacity-80">
             <BookOpen className="h-8 w-8 text-accent" />
-            <span className="text-2xl font-bold font-serif text-foreground">BooksCart</span>
+            <span className="text-2xl font-bold font-serif text-foreground">BooksKart</span>
           </Link>
           <h1 className="mt-6 text-2xl font-bold font-serif text-foreground">
             Create Your Account
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Join BooksCart and start discovering great books
+            Join BooksKart and start discovering great books
           </p>
         </div>
 

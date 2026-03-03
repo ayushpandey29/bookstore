@@ -38,7 +38,7 @@ export function SiteHeader() {
         >
           <BookOpen className="h-7 w-7 text-accent" />
           <span className="text-xl font-bold tracking-tight font-serif text-foreground">
-            BooksCart
+            BooksKart
           </span>
         </Link>
 

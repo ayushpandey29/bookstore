@@ -184,7 +184,7 @@ export default function AdminDashboardPage() {
             <div>
               <div className="flex items-center gap-2">
                 <BookOpen className="h-4 w-4 text-accent" />
-                <span className="text-sm font-bold font-serif text-foreground">BooksCart</span>
+                <span className="text-sm font-bold font-serif text-foreground">BooksKart</span>
               </div>
               <p className="text-xs text-muted-foreground">Admin Dashboard</p>
             </div>

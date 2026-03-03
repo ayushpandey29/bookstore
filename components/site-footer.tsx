@@ -15,7 +15,7 @@ export function SiteFooter() {
           <div>
             <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80">
               <BookOpen className="h-6 w-6 text-accent" />
-              <span className="text-lg font-bold font-serif">BooksCart</span>
+              <span className="text-lg font-bold font-serif">BooksKart</span>
             </Link>
             <p className="mt-3 text-sm leading-relaxed opacity-70">
               Your destination for the world's best books. Discover, explore,
@@ -102,7 +102,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-10 border-t border-primary-foreground/10 pt-6 flex flex-col items-center gap-2 text-sm opacity-50">
-          <p>© 2026 BooksCart. All rights reserved.</p>
+          <p>© 2026 BooksKart. All rights reserved.</p>
           <Link
             href="https://github.com/avikmasanta"
             target="_blank"

@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
           </div>
           <div className="flex items-center gap-2">
             <BookOpen className="h-6 w-6 text-accent" />
-            <span className="text-xl font-bold font-serif text-foreground">BooksCart</span>
+            <span className="text-xl font-bold font-serif text-foreground">BooksKart</span>
           </div>
           <p className="text-sm text-muted-foreground">Admin Panel</p>
         </div>

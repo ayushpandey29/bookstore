@@ -21,11 +21,11 @@ const playfairDisplay = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "BooksCart - Your Destination for Great Books",
-    template: "%s | BooksCart",
+    default: "BooksKart - Your Destination for Great Books",
+    template: "%s | BooksKart",
   },
   description:
-    "Discover, explore, and find your next great read at BooksCart. Browse thousands of titles across fiction, non-fiction, and more.",
+    "Discover, explore, and find your next great read at BooksKart. Browse thousands of titles across fiction, non-fiction, and more.",
 }
 
 export const viewport: Viewport = {
