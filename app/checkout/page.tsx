@@ -326,7 +326,7 @@ export default function CheckoutPage() {
             <div className="mt-4 flex justify-center">
               <div className="overflow-hidden rounded-xl border border-border bg-white p-2 shadow-sm">
                 <Image
-                  src="/images/qr.jpeg"
+                  src="/images/qr.jpg"
                   alt="UPI QR Code - Scan to pay via Paytm, Google Pay, PhonePe, or BHIM"
                   width={320}
                   height={320}
