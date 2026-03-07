@@ -14,21 +14,29 @@ export async function POST(request: Request) {
       )
     }
 
-    const sql = getDb()
-    const result = await sql`SELECT * FROM admin_users WHERE username = ${username}`
+    const db = await getDb()
+    const adminCollection = db.collection("admin_users")
 
-    if (result.length === 0) {
+    let admin = await adminCollection.findOne({ username })
+
+    // Seed default admin if none exists for 'admin'
+    if (!admin && username === "admin") {
+      const defaultHash = await bcrypt.hash("password123", 10)
+      const res = await adminCollection.insertOne({ username: "admin", password_hash: defaultHash })
+      admin = { _id: res.insertedId, username: "admin", password_hash: defaultHash }
+    }
+
+    if (!admin) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 })
     }
 
-    const admin = result[0]
     const passwordMatch = await bcrypt.compare(password, admin.password_hash)
 
     if (!passwordMatch) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 })
     }
 
-    const sessionToken = `admin_${admin.id}_${Date.now()}_${Math.random().toString(36).substring(2)}`
+    const sessionToken = `admin_${admin._id.toString()}_${Date.now()}_${Math.random().toString(36).substring(2)}`
 
     const cookieStore = await cookies()
     cookieStore.set("admin_session", sessionToken, {
@@ -41,7 +49,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      admin: { id: admin.id, username: admin.username },
+      admin: { id: admin._id.toString(), username: admin.username },
     })
   } catch (error) {
     console.error("Admin login error:", error)
