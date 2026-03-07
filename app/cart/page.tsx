@@ -12,9 +12,8 @@ export default function CartPage() {
   const getTotal = useCartStore((s) => s.getTotal)
 
   const total = getTotal()
-  const shipping = total > 2999 ? 0 : 99
   const tax = Math.round(total * 0.05)
-  const grandTotal = total + shipping + tax
+  const grandTotal = total + tax
 
   if (items.length === 0) {
     return (
@@ -154,16 +153,7 @@ export default function CartPage() {
                   {"₹"}{total}
                 </dd>
               </div>
-              <div className="flex items-center justify-between">
-                <dt className="text-sm text-muted-foreground">Shipping</dt>
-                <dd className="text-sm font-medium text-card-foreground">
-                  {shipping === 0 ? (
-                    <span className="text-[#2a7d6e]">Free</span>
-                  ) : (
-                    <>{"₹"}{shipping}</>
-                  )}
-                </dd>
-              </div>
+
               <div className="flex items-center justify-between">
                 <dt className="text-sm text-muted-foreground">
                   Estimated GST
@@ -184,11 +174,7 @@ export default function CartPage() {
               </div>
             </dl>
 
-            {shipping > 0 && (
-              <p className="mt-3 text-xs text-muted-foreground">
-                Free shipping on orders over {"₹"}2,999
-              </p>
-            )}
+
 
             <Link
               href="/checkout"

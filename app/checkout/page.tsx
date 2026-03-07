@@ -28,9 +28,8 @@ export default function CheckoutPage() {
   const [placedOrderId, setPlacedOrderId] = useState("")
 
   const total = getTotal()
-  const shipping = total > 2999 ? 0 : 99
   const tax = Math.round(total * 0.05)
-  const grandTotal = total + shipping + tax
+  const grandTotal = total + tax
 
   if (items.length === 0 && !orderPlaced) {
     return (
@@ -141,7 +140,7 @@ export default function CheckoutPage() {
           transactionId: formData.transactionId,
           items: orderItems,
           subtotal: total,
-          shipping,
+          shipping: 0,
           tax,
           grandTotal,
         }),
@@ -390,16 +389,7 @@ export default function CheckoutPage() {
                   {"₹"}{total}
                 </dd>
               </div>
-              <div className="flex items-center justify-between">
-                <dt className="text-sm text-muted-foreground">Shipping</dt>
-                <dd className="text-sm font-medium text-card-foreground">
-                  {shipping === 0 ? (
-                    <span className="text-[#2a7d6e]">Free</span>
-                  ) : (
-                    <>{"₹"}{shipping}</>
-                  )}
-                </dd>
-              </div>
+
               <div className="flex items-center justify-between">
                 <dt className="text-sm text-muted-foreground">GST (5%)</dt>
                 <dd className="text-sm font-medium text-card-foreground">
