@@ -9,16 +9,15 @@ let client: MongoClient | null = null
 let clientPromise: Promise<MongoClient> | null = null
 
 export async function getDb(): Promise<Db> {
-  if (!process.env.MONGODB_URI) {
-    throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
-  }
+  // Use MONGODB_URI as primary, DATABASE_URL as fallback
+  const uri = process.env.MONGODB_URI || process.env.DATABASE_URL
 
-  const uri = process.env.MONGODB_URI
+  if (!uri) {
+    throw new Error('Database connection string is missing. Please add "MONGODB_URI" or "DATABASE_URL" to your Vercel Environment Variables.')
+  }
 
   if (!clientPromise) {
     if (process.env.NODE_ENV === "development") {
-      // In development mode, use a global variable so that the value
-      // is preserved across module reloads caused by HMR.
       let globalWithMongo = global as typeof globalThis & {
         _mongoClientPromise?: Promise<MongoClient>
       }
@@ -29,7 +28,6 @@ export async function getDb(): Promise<Db> {
       }
       clientPromise = globalWithMongo._mongoClientPromise
     } else {
-      // In production mode, initialize the client promise once.
       client = new MongoClient(uri, options)
       clientPromise = client.connect()
     }
