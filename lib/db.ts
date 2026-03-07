@@ -1,8 +1,24 @@
-import { neon } from "@neondatabase/serverless"
+import { MongoClient, Db } from "mongodb"
 
-export function getDb() {
-  if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL is not set")
+let cachedClient: MongoClient | null = null
+let cachedDb: Db | null = null
+
+export async function getDb(): Promise<Db> {
+  if (!process.env.MONGODB_URI) {
+    throw new Error("MONGODB_URI is not set in environment variables")
   }
-  return neon(process.env.DATABASE_URL)
+
+  if (cachedClient && cachedDb) {
+    return cachedDb
+  }
+
+  const client = new MongoClient(process.env.MONGODB_URI)
+  await client.connect()
+
+  const db = client.db("bookskart") // Default database name
+
+  cachedClient = client
+  cachedDb = db
+
+  return db
 }

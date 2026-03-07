@@ -342,16 +342,16 @@ export default function MyOrdersPage() {
                                                             >
                                                                 <div
                                                                     className={`flex h-8 w-8 items-center justify-center rounded-full border-2 transition-colors ${isActive
-                                                                            ? `${stepConf.bg} ${stepConf.color} border-current`
-                                                                            : "border-border bg-card text-muted-foreground/40"
+                                                                        ? `${stepConf.bg} ${stepConf.color} border-current`
+                                                                        : "border-border bg-card text-muted-foreground/40"
                                                                         }`}
                                                                 >
                                                                     <StepIcon className="h-4 w-4" />
                                                                 </div>
                                                                 <span
                                                                     className={`mt-1.5 text-[10px] font-semibold ${isActive
-                                                                            ? stepConf.color
-                                                                            : "text-muted-foreground/40"
+                                                                        ? stepConf.color
+                                                                        : "text-muted-foreground/40"
                                                                         }`}
                                                                 >
                                                                     {stepConf.label}
@@ -417,12 +417,6 @@ export default function MyOrdersPage() {
                                                     <span>
                                                         Subtotal: {"₹"}
                                                         {Number(order.subtotal).toLocaleString("en-IN")}
-                                                    </span>
-                                                    <span>
-                                                        Shipping:{" "}
-                                                        {Number(order.shipping) === 0
-                                                            ? "Free"
-                                                            : `₹${order.shipping}`}
                                                     </span>
                                                     <span>
                                                         Tax: {"₹"}

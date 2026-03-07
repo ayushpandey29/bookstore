@@ -12,7 +12,6 @@ export async function POST(request: Request) {
       transactionId,
       items,
       subtotal,
-      shipping,
       tax,
       grandTotal,
     } = body
@@ -24,25 +23,37 @@ export async function POST(request: Request) {
       )
     }
 
-    const sql = getDb()
+    const db = await getDb()
+    const ordersCollection = db.collection("orders")
+
     const orderId = `BK-${Date.now().toString(36).toUpperCase()}${Math.random().toString(36).substring(2, 5).toUpperCase()}`
 
-    const result = await sql`
-      INSERT INTO orders (
-        order_id, customer_name, customer_email, customer_phone,
-        shipping_address, transaction_id, items,
-        subtotal, shipping, tax, grand_total, status
-      ) VALUES (
-        ${orderId}, ${customerName}, ${customerEmail}, ${customerPhone},
-        ${shippingAddress}, ${transactionId}, ${JSON.stringify(items)},
-        ${subtotal}, ${shipping}, ${tax}, ${grandTotal}, 'processing'
-      )
-      RETURNING id, order_id, status, created_at
-    `
+    const newOrder = {
+      order_id: orderId,
+      customer_name: customerName,
+      customer_email: customerEmail,
+      customer_phone: customerPhone,
+      shipping_address: shippingAddress,
+      transaction_id: transactionId,
+      items,
+      subtotal,
+      tax,
+      grand_total: grandTotal,
+      status: 'processing',
+      created_at: new Date(),
+      updated_at: new Date()
+    }
+
+    const result = await ordersCollection.insertOne(newOrder)
 
     return NextResponse.json({
       success: true,
-      order: result[0],
+      order: {
+        id: result.insertedId.toString(),
+        order_id: orderId,
+        status: newOrder.status,
+        created_at: newOrder.created_at
+      },
     })
   } catch (error) {
     console.error("Order creation error:", error)
@@ -59,22 +70,24 @@ export async function GET(request: Request) {
     const email = searchParams.get("email")
     const orderId = searchParams.get("orderId")
 
-    const sql = getDb()
+    const db = await getDb()
+    const ordersCollection = db.collection("orders")
 
     if (orderId) {
-      const result = await sql`SELECT * FROM orders WHERE order_id = ${orderId}`
-      if (result.length === 0) {
+      const order = await ordersCollection.findOne({ order_id: orderId })
+      if (!order) {
         return NextResponse.json({ error: "Order not found" }, { status: 404 })
       }
-      return NextResponse.json({ order: result[0] })
+      return NextResponse.json({ order })
     }
 
     if (email) {
-      const result = await sql`
-        SELECT * FROM orders WHERE customer_email = ${email}
-        ORDER BY created_at DESC
-      `
-      return NextResponse.json({ orders: result })
+      const orders = await ordersCollection
+        .find({ customer_email: email })
+        .sort({ created_at: -1 })
+        .toArray()
+
+      return NextResponse.json({ orders })
     }
 
     return NextResponse.json(

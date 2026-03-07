@@ -13,11 +13,12 @@ export async function POST(request: Request) {
             )
         }
 
-        const sql = getDb()
+        const db = await getDb()
+        const usersCollection = db.collection("users")
 
         // Check if user already exists
-        const existing = await sql`SELECT id FROM users WHERE email = ${email}`
-        if (existing.length > 0) {
+        const existing = await usersCollection.findOne({ email })
+        if (existing) {
             return NextResponse.json(
                 { error: "User already exists with this email" },
                 { status: 400 }
@@ -25,15 +26,23 @@ export async function POST(request: Request) {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
-        const result = await sql`
-      INSERT INTO users (name, email, password_hash)
-      VALUES (${name}, ${email}, ${hashedPassword})
-      RETURNING id, name, email
-    `
+
+        const newUser = {
+            name,
+            email,
+            password_hash: hashedPassword,
+            created_at: new Date()
+        }
+
+        const result = await usersCollection.insertOne(newUser)
 
         return NextResponse.json({
             success: true,
-            user: result[0],
+            user: {
+                id: result.insertedId.toString(),
+                name: newUser.name,
+                email: newUser.email
+            },
         })
     } catch (error) {
         console.error("Signup error:", error)

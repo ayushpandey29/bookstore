@@ -140,7 +140,6 @@ export default function CheckoutPage() {
           transactionId: formData.transactionId,
           items: orderItems,
           subtotal: total,
-          shipping: 0,
           tax,
           grandTotal,
         }),

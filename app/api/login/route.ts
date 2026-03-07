@@ -13,17 +13,18 @@ export async function POST(request: Request) {
             )
         }
 
-        const sql = getDb()
-        const result = await sql`SELECT * FROM users WHERE email = ${email}`
+        const db = await getDb()
+        const usersCollection = db.collection("users")
 
-        if (result.length === 0) {
+        const user = await usersCollection.findOne({ email })
+
+        if (!user) {
             return NextResponse.json(
                 { error: "Invalid email or password" },
                 { status: 401 }
             )
         }
 
-        const user = result[0]
         const passwordMatch = await bcrypt.compare(password, user.password_hash)
 
         if (!passwordMatch) {
@@ -36,7 +37,7 @@ export async function POST(request: Request) {
         return NextResponse.json({
             success: true,
             user: {
-                id: user.id,
+                id: user._id.toString(),
                 name: user.name,
                 email: user.email,
             },

@@ -352,7 +352,6 @@ export default function AdminDashboardPage() {
                           </p>
                           <div className="mt-1 flex flex-col gap-0.5 text-sm text-muted-foreground">
                             <span>Subtotal: {"₹"}{Number(order.subtotal).toLocaleString("en-IN")}</span>
-                            <span>Shipping: {Number(order.shipping) === 0 ? "Free" : `₹${order.shipping}`}</span>
                             <span>Tax: {"₹"}{Number(order.tax).toLocaleString("en-IN")}</span>
                             <span className="font-semibold text-card-foreground">
                               Total: {"₹"}{Number(order.grand_total).toLocaleString("en-IN")}

@@ -11,7 +11,6 @@ export interface OrderRecord {
     transaction_id: string
     items: string
     subtotal: number
-    shipping: number
     tax: number
     grand_total: number
     status: string
@@ -50,7 +49,6 @@ const sampleOrder: OrderRecord = {
         },
     ]),
     subtotal: 1297,
-    shipping: 0,
     tax: 65,
     grand_total: 1362,
     status: "processing",
@@ -87,7 +85,6 @@ export function createOrder(data: {
     transactionId: string
     items: unknown[]
     subtotal: number
-    shipping: number
     tax: number
     grandTotal: number
 }): OrderRecord {
@@ -106,7 +103,6 @@ export function createOrder(data: {
         transaction_id: data.transactionId,
         items: JSON.stringify(data.items),
         subtotal: data.subtotal,
-        shipping: data.shipping,
         tax: data.tax,
         grand_total: data.grandTotal,
         status: "processing",

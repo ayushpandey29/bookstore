@@ -11,8 +11,12 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const sql = getDb()
-    const orders = await sql`SELECT * FROM orders ORDER BY created_at DESC`
+    const db = await getDb()
+    const orders = await db.collection("orders")
+      .find()
+      .sort({ created_at: -1 })
+      .toArray()
+
     return NextResponse.json({ orders })
   } catch (error) {
     console.error("Admin orders fetch error:", error)
@@ -40,18 +44,18 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "Invalid status" }, { status: 400 })
     }
 
-    const sql = getDb()
-    const result = await sql`
-      UPDATE orders SET status = ${status}, updated_at = NOW()
-      WHERE order_id = ${orderId}
-      RETURNING *
-    `
+    const db = await getDb()
+    const result = await db.collection("orders").findOneAndUpdate(
+      { order_id: orderId },
+      { $set: { status, updated_at: new Date() } },
+      { returnDocument: "after" }
+    )
 
-    if (result.length === 0) {
+    if (!result) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 })
     }
 
-    return NextResponse.json({ success: true, order: result[0] })
+    return NextResponse.json({ success: true, order: result })
   } catch (error) {
     console.error("Admin order update error:", error)
     return NextResponse.json({ error: "Failed to update order" }, { status: 500 })
